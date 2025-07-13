@@ -1,17 +1,17 @@
 // Configuration object for easy customization
 const CONFIG = {
     cursorImages: [
-        { src: '/AWU_WEB/static/images/homepageImages/normandyCliffside.jpeg'},
-        { src: '/AWU_WEB/static/images/homepageImages/normandyPassage.jpeg'},
-        { src: '/AWU_WEB/static/images/homepageImages/stairBackground.jpeg'},
-        { src: '/AWU_WEB/static/images/homepageImages/taiwanRide.jpeg'},
+        { src: '/AWU_WEB/static/images/homepage/normandyCliffside.jpeg'},
+        { src: '/AWU_WEB/static/images/homepage/normandyPassage.jpeg'},
+        { src: '/AWU_WEB/static/images/homepage/stairBackground.jpeg'},
+        { src: '/AWU_WEB/static/images/homepage/taiwanRide.jpeg'},
     ],
     backgroundImages: [
-        { src: '/AWU_WEB/static/images/homepageImages/taiwanFoodStall.jpeg'},
-        { src: '/AWU_WEB/static/images/homepageImages/taiwanTrain.jpeg'},
-        { src: '/AWU_WEB/static/images/homepageImages/taiwanCat.jpeg'},
-        { src: '/AWU_WEB/static/images/homepageImages/balance.jpeg'},
-        { src: '/AWU_WEB/static/images/homepageImages/aquarium.jpg'},
+        { src: '/AWU_WEB/static/images/homepage/taiwanFoodStall.jpeg'},
+        { src: '/AWU_WEB/static/images/homepage/taiwanTrain.jpeg'},
+        { src: '/AWU_WEB/static/images/homepage/taiwanCat.jpeg'},
+        { src: '/AWU_WEB/static/images/homepage/balance.jpeg'},
+        { src: '/AWU_WEB/static/images/homepage/aquarium.jpg'},
     ],
     cursorSize: 150,
     transitionSpeed: 0.01,

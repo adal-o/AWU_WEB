@@ -1,17 +1,17 @@
 // Configuration object for easy customization
 const CONFIG = {
     cursorImages: [
-        { src: '../static/images/homepageimages/normandyCliffside.jpeg'},
-        { src: '../static/images/homepageimages/normandyPassage.jpeg'},
-        { src: '../static/images/homepageimages/stairBackground.jpeg'},
-        { src: '../static/images/homepageimages/taiwanRide.jpeg'},
+        { src: '../images/homepageimages/normandyCliffside.jpeg'},
+        { src: '../images/homepageimages/normandyPassage.jpeg'},
+        { src: '../images/homepageimages/stairBackground.jpeg'},
+        { src: '../images/homepageimages/taiwanRide.jpeg'},
     ],
     backgroundImages: [
-        { src: '../static/images/homepageimages/taiwanFoodStall.jpeg'},
-        { src: '../static/images/homepageimages/taiwanTrain.jpeg'},
-        { src: '../static/images/homepageimages/taiwanCat.jpeg'},
-        { src: '../static/images/homepageimages/balance.jpeg'},
-        { src: '../static/images/homepageimages/aquarium.jpg'},
+        { src: '../images/homepageimages/taiwanFoodStall.jpeg'},
+        { src: '../images/homepageimages/taiwanTrain.jpeg'},
+        { src: '../images/homepageimages/taiwanCat.jpeg'},
+        { src: '../images/homepageimages/balance.jpeg'},
+        { src: '../images/homepageimages/aquarium.jpg'},
     ],
     cursorSize: 150,
     transitionSpeed: 0.01,

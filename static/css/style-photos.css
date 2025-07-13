@@ -1,0 +1,144 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f8f9fa;
+    padding: 40px 20px;
+}
+
+.gallery-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery-grid {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.gallery-item {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.gallery-image {
+    overflow: hidden;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.gallery-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(255, 30, 0);
+    mix-blend-mode: overlay;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.gallery-item:hover .gallery-image::before {
+    opacity: .5;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.gallery-title {
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.gallery-item:hover .gallery-title {
+    color: rgb(139, 4, 4);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    body {
+        padding: 20px 10px;
+    }
+}
+
+.overlay-text-vd {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 0 30px;
+    display: flex;
+    z-index: 1000;
+    justify-content: space-between;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    font-size: 25px;
+    /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
+}
+
+.nav-links-vd {
+    display: flex;
+    gap: 30px;
+}
+
+.overlay-text-vd .nav-item-vd {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 400;
+    padding: 8px 16px;
+    /* border: 2px solid transparent; */
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.overlay-text-vd .nav-item-vd:hover {
+    /* border-color: white; */
+    text-decoration: underline;
+    color: rgb(210, 34, 34);
+}
+
+.name-logo {
+    height: 40px; /* Adjust as needed */
+    width: auto;
+    /* border-radius: 50%; Make it circular */
+    transition: transform 0.3s ease;
+}
+
+.name-logo:hover {
+    transform: scale(1.1);
+}
+
+.main-content {
+    color: white;
+    background-image: none !important;
+}

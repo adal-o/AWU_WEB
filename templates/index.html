@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMELIE WU</title>
+    <link rel="icon" href="../static/images/homepageimages/ajwStamp.ico">
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body class="body-home">
+    <main class="main-content">
+        <div class="background-image"></div>
+        <div class="overlay-text">
+        <div class="nav-links">
+            <a href="about.html" class="nav-item">about</a>
+            <a href="{{ url_for('photography') }}" class="nav-item">photography</a>
+            <a href="{{ url_for('visual_design') }}" class="nav-item">visual design</a>
+            <a href="#" class="nav-item">projects</a>
+        </div>
+        <a href="{{ url_for('home') }}" class="nav-item nav-name">
+            <img src="../static/images/homepageimages/ajwStamp.jpg" alt="Your Name Logo" class="name-logo">
+        </a>
+        </div>
+
+        <div class="cursor-follower">
+            <!-- Images will be dynamically loaded here --> 
+        </div>
+    </main>
+    
+    <script src="../static/js/script.js"></script>
+</body>
+</html>
+

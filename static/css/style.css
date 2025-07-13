@@ -1,0 +1,197 @@
+/* CSS Variables for easy customization */
+:root {
+    --primary-color: #333;
+    --secondary-color: #666;
+    --accent-color: #007bff;
+    --background-color: #f8f9fa;
+    --nav-background: rgba(255, 255, 255, 0.9);
+    --cursor-size: 200px;
+    --font-family: 'Georgia', serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.body-home {
+    font-family: var(--font-family);
+    overflow: hidden;
+    background: var(--background-color);
+}
+
+/* Hide cursor only on desktop */
+@media (min-width: 769px) {
+    .body-home {
+        cursor: none;
+    }
+}
+
+/* Show cursor on mobile */
+@media (max-width: 768px) {
+    .body-home {
+        cursor: default;
+    }
+}
+
+/* Main Content */
+.main-content {
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background-size: 100%; /* Slightly zoomed out */
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease-in-out;
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.3;
+}
+
+.overlay-text {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    color: rgb(255, 255, 255);
+    font-size: 25px;
+    /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.overlay-text .nav-item {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 400;
+    padding: 8px 16px;
+    /* border: 2px solid transparent; */
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    cursor: pointer; /* Ensure cursor pointer on nav items */
+}
+
+.overlay-text .nav-item:hover {
+    /* border-color: white; */
+    text-decoration: underline;
+    color: rgb(210, 34, 34);
+}
+
+.name-logo {
+    height: 40px; /* Adjust as needed */
+    width: auto;
+    /* border-radius: 50%; Make it circular */
+    transition: transform 0.3s ease;
+}
+
+.name-logo:hover {
+    transform: scale(1.1);
+}
+
+.cursor-follower {
+    position: absolute;
+    width: var(--cursor-size);
+    height: var(--cursor-size);
+    pointer-events: none;
+    transition: all 0.08s ease-out;
+    overflow: hidden;
+    z-index: 100;
+    border-radius: 10%; /* Start with a circle */
+    /* clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); */
+    /* clip-path: polygon(100% 50%,calc(96.19% - 36.96px) calc(69.13% - 15.31px),85.36% 85.36%,calc(69.13% - 15.31px) calc(96.19% - 36.96px),50% 100%,calc(30.87% - -15.31px) calc(96.19% - 36.96px),14.64% 85.36%,calc(3.81% - -36.96px) calc(69.13% - 15.31px),0% 50%,calc(3.81% - -36.96px) calc(30.87% - -15.31px),14.64% 14.64%,calc(30.87% - -15.31px) calc(3.81% - -36.96px),50% 0%,calc(69.13% - 15.31px) calc(3.81% - -36.96px),85.36% 14.64%,calc(96.19% - 36.96px) calc(30.87% - -15.31px)); */
+    /* clip-path: polygon(79.9% 90.08%,calc(50.63% - 0.5px) calc(100% - 40px),21.12% 90.82%,calc(2.65% - -37.88px) calc(66.05% - 12.84px),2.26% 35.15%,calc(20.1% - -23.92px) calc(9.92% - -32.06px),49.37% 0%,calc(78.88% - 23.1px) calc(9.18% - -32.65px),97.35% 33.95%,calc(97.74% - 38.19px) calc(64.85% - 11.88px)); */
+    clip-path: polygon(100% 50%,71.21% 71.21%,50% 100%,28.79% 71.21%,0% 50%,28.79% 28.79%,50% 0%,71.21% 28.79%);
+}
+
+.cursor-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.cursor-image.active {
+    opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .overlay-text {
+        flex-direction: column;
+        gap: 15px;
+        top: 10px;
+    }
+    
+    .overlay-text .nav-item {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+    
+    :root {
+        --cursor-size: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .overlay-text {
+        gap: 10px;
+    }
+    
+    .overlay-text .nav-item {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+    
+    :root {
+        --cursor-size: 100px;
+    }
+}
+
+/* Hover Effects - only on desktop */
+@media (min-width: 769px) {
+    .main-content:hover .cursor-follower {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+/* Animation for smooth transitions */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.cursor-follower {
+    animation: fadeIn 1s ease-in;
+}
+
+/* SVG filter for goo effect */
+svg {
+    display: block;
+}
+
+.filters {
+    position: absolute;
+    visibility: hidden;
+}

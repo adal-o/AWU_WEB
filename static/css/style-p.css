@@ -1,0 +1,227 @@
+
+:root {
+    --primary-color: #333;
+    --secondary-color: #666;
+    --accent-color: #007bff;
+    --background-color: #f8f9fa;
+    --nav-background: rgba(255, 255, 255, 0.9);
+    --cursor-size: 200px;
+    --font-family: 'Georgia', serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    overflow: hidden;
+    background: var(--background-color);
+    cursor: none; /* Hide default cursor */
+    /* height: 100vh;             Take full viewport height */
+    overflow-x: hidden;
+    overflow-y: auto;          /* Enable vertical scrolling if needed */
+}
+
+
+.overlay-text-vd {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 0 30px;
+    display: flex;
+    z-index: 1000;
+    justify-content: space-between;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    font-size: 25px;
+    /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
+}
+
+.nav-links-vd {
+    display: flex;
+    gap: 30px;
+}
+
+.overlay-text-vd .nav-item-vd {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 400;
+    padding: 8px 16px;
+    /* border: 2px solid transparent; */
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.overlay-text-vd .nav-item-vd:hover {
+    /* border-color: white; */
+    text-decoration: underline;
+    color: rgb(210, 34, 34);
+}
+
+.name-logo {
+    height: 40px; /* Adjust as needed */
+    width: auto;
+    /* border-radius: 50%; Make it circular */
+    transition: transform 0.3s ease;
+}
+
+.name-logo:hover {
+    transform: scale(1.1);
+}
+
+
+/* ===== CONTAINER STYLES ===== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+
+/* ===== GALLERY STYLES ===== */
+.gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* Center by default */
+  padding: 40px 0;
+  gap: 0px;
+}
+/* ===== IMAGE ITEM STYLES ===== */
+.image-item {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.0s ease;
+}
+
+.image-item:nth-child(even) {
+  align-self: flex-end;  /* Push to the right */
+  transform: translateX(50px);
+}
+
+.image-item:nth-child(odd) {
+  align-self: flex-start;  /* Push to the left */
+  transform: translateX(-50px);
+}
+
+.image-item:nth-child(1) {
+    /* Bottom right corner slant */
+    transform: scale(1.1) perspective(0.2rem) translate3d(0px, 0px, -0.05rem) rotateX(0.0495413deg) rotateY(-0.121841deg);
+}   
+
+.image-item:nth-child(2) {
+    /* Right slant */
+    transform: scale(1.1) perspective(0.2rem) translate3d(0px, 0px, -0.05rem) rotateX(-0.0319181deg) rotateY(-0.18683deg);
+}
+
+.image-item:nth-child(3) {
+    /* Bottom right corner slant */
+    transform: scale(1.1) perspective(0.2rem) translate3d(0px, 0px, -0.05rem) rotateX(0.129914deg) rotateY(0.0401294deg);
+}
+
+/* ===== HOVER EFFECT - STRAIGHTEN THE IMAGE ===== */
+.image-item:hover {
+    /* Straighten the image on hover */
+    transform: rotate(0deg);
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3);
+    /* Bring the hovered item to front */
+    z-index: 10;
+}
+
+/* ===== IMAGE STYLES ===== */
+.image-item img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+    /* CUSTOMIZABLE: Image transition - adjust for different effects */
+    transition: transform 0.4s ease;
+}
+
+.image-title {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  text-align: center;
+  transition: transform 0.4s ease;
+}
+
+.image-item:hover .image-title {
+    color:rgb(8, 112, 25)
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .gallery {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .image-item {
+        margin: 10px;
+        
+        /* CUSTOMIZABLE: Reduce slant on mobile for better UX */
+        transform: rotate(-2deg);
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px 10px;
+    }
+    
+    .image-item {
+        margin: 5px;
+        
+        /* CUSTOMIZABLE: Minimal slant on very small screens */
+        transform: rotate(-1deg);
+    }
+    
+    .image-item img {
+        height: 250px;
+    }
+}
+
+.cursor-follower {
+    position: absolute;
+    width: var(--cursor-size);
+    height: var(--cursor-size);
+    pointer-events: none;
+    transition: all 0.08s ease-out;
+    overflow: hidden;
+    z-index: 100;
+    border-radius: 10%; /* Start with a circle */
+    /* clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); */
+    /* clip-path: polygon(100% 50%,calc(96.19% - 36.96px) calc(69.13% - 15.31px),85.36% 85.36%,calc(69.13% - 15.31px) calc(96.19% - 36.96px),50% 100%,calc(30.87% - -15.31px) calc(96.19% - 36.96px),14.64% 85.36%,calc(3.81% - -36.96px) calc(69.13% - 15.31px),0% 50%,calc(3.81% - -36.96px) calc(30.87% - -15.31px),14.64% 14.64%,calc(30.87% - -15.31px) calc(3.81% - -36.96px),50% 0%,calc(69.13% - 15.31px) calc(3.81% - -36.96px),85.36% 14.64%,calc(96.19% - 36.96px) calc(30.87% - -15.31px)); */
+    /* clip-path: polygon(79.9% 90.08%,calc(50.63% - 0.5px) calc(100% - 40px),21.12% 90.82%,calc(2.65% - -37.88px) calc(66.05% - 12.84px),2.26% 35.15%,calc(20.1% - -23.92px) calc(9.92% - -32.06px),49.37% 0%,calc(78.88% - 23.1px) calc(9.18% - -32.65px),97.35% 33.95%,calc(97.74% - 38.19px) calc(64.85% - 11.88px)); */
+    clip-path: polygon(100% 50%,71.21% 71.21%,50% 100%,28.79% 71.21%,0% 50%,28.79% 28.79%,50% 0%,71.21% 28.79%);
+}
+
+.cursor-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cursor-image.active {
+    opacity: 1;
+}
+
+.main-content {
+    color: white;
+    background-image: none !important;
+}
+
+.main-content:hover .cursor-follower {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+

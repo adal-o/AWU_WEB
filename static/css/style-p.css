@@ -17,16 +17,27 @@
 
 body {
     font-family: var(--font-family);
-    overflow: hidden;
     background: var(--background-color);
-    cursor: none; /* Hide default cursor */
-    /* height: 100vh;             Take full viewport height */
     overflow-x: hidden;
-    overflow-y: auto;          /* Enable vertical scrolling if needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Hide cursor only on desktop */
+@media (min-width: 769px) {
+    body {
+        cursor: none; /* Hide default cursor */
+    }
+}
+
+/* Show cursor on mobile */
+@media (max-width: 768px) {
+    body {
+        cursor: default;
+    }
 }
 
 
-.overlay-text-vd {
+.overlay-text {
     position: absolute;
     top: 20px;
     left: 0;
@@ -39,26 +50,33 @@ body {
     align-items: center;
     color: rgb(0, 0, 0);
     font-size: 25px;
-    /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
 }
 
-.nav-links-vd {
+.nav-links {
     display: flex;
     gap: 30px;
 }
 
-.overlay-text-vd .nav-item-vd {
+.overlay-text .nav-item {
     text-decoration: none;
     color: inherit;
     font-weight: 400;
     padding: 8px 16px;
-    /* border: 2px solid transparent; */
     border-radius: 4px;
     transition: all 0.3s ease;
 }
 
-.overlay-text-vd .nav-item-vd:hover {
-    /* border-color: white; */
+.overlay-text .nav-item:visited {
+    color: inherit;
+    text-decoration: none;
+}
+
+.overlay-text .nav-item:link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.overlay-text .nav-item:hover {
     text-decoration: underline;
     color: rgb(210, 34, 34);
 }
@@ -123,11 +141,20 @@ body {
     transform: scale(1.1) perspective(0.2rem) translate3d(0px, 0px, -0.05rem) rotateX(0.129914deg) rotateY(0.0401294deg);
 }
 
+.image-item:nth-child(4) {
+    /* Bottom right corner slant */
+    transform: scale(1.1) perspective(0.2rem) translate3d(0px, 0px, -0.05rem) rotateX(-0.129914deg) rotateY(0.0401294deg);
+}
+
+.image-item:nth-child(5) {
+    /* Bottom right corner slant */
+    transform: scale(1.1) perspective(0.2rem) translate3d(0px, 0px, -0.05rem) rotateX(0.129914deg) rotateY(-0.0401294deg);
+}
+
 /* ===== HOVER EFFECT - STRAIGHTEN THE IMAGE ===== */
-.image-item:hover {
+.image-item:hover, .image-item:active {
     /* Straighten the image on hover */
-    transform: rotate(0deg);
-    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3);
+    transform: rotate(0deg) !important;
     /* Bring the hovered item to front */
     z-index: 10;
 }
@@ -135,11 +162,23 @@ body {
 /* ===== IMAGE STYLES ===== */
 .image-item img {
     width: 100%;
-    height: 300px;
+    height: auto; /* Allow height to adjust proportionally */
+    max-height: 300px; /* Set a max height for larger screens */
     object-fit: cover;
     display: block;
-    /* CUSTOMIZABLE: Image transition - adjust for different effects */
     transition: transform 0.4s ease;
+}
+
+@media (max-width: 768px) {
+    .image-item img {
+        max-height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .image-item img {
+        max-height: 200px;
+    }
 }
 
 .image-title {
@@ -156,33 +195,78 @@ body {
 
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
+    .overlay-text {
+        flex-direction: column;
+        gap: 15px;
+        top: 10px;
+        font-size: 18px;
+    }
+    
+    .nav-links {
+        gap: 20px;
+    }
+    
+    .overlay-text .nav-item {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+    
     .gallery {
         grid-template-columns: 1fr;
         gap: 30px;
+        padding: 80px 0 40px 0; /* Add top padding for mobile nav */
     }
     
     .image-item {
         margin: 10px;
         
         /* CUSTOMIZABLE: Reduce slant on mobile for better UX */
-        transform: rotate(-2deg);
+        transform: rotate(-2deg) !important;
+    }
+    
+    .image-item:nth-child(even) {
+        align-self: center;
+        transform: rotate(-1deg) !important;
+    }
+
+    .image-item:nth-child(odd) {
+        align-self: center;
+        transform: rotate(1deg) !important;
+    }
+    
+    :root {
+        --cursor-size: 120px;
     }
 }
 
 @media (max-width: 480px) {
+    .overlay-text {
+        gap: 10px;
+        font-size: 16px;
+    }
+    
+    .overlay-text .nav-item {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+    
     .container {
         padding: 20px 10px;
+    }
+    
+    .gallery {
+        padding: 100px 0 40px 0; /* More top padding for smaller screens */
     }
     
     .image-item {
         margin: 5px;
         
         /* CUSTOMIZABLE: Minimal slant on very small screens */
-        transform: rotate(-1deg);
+        transform: rotate(-1deg) !important;
     }
     
-    .image-item img {
-        height: 250px;
+    :root {
+        --cursor-size: 100px;
     }
 }
 
@@ -222,6 +306,176 @@ body {
 }
 
 .main-content:hover .cursor-follower {
-    transform: translate(-50%, -50%) scale(1.1);
+    transform: translate(-50%, -50%);
+}
+
+
+
+/* ===== iOS CLIP-PATH FIX ===== */
+.cursor-follower {
+    position: absolute;
+    width: var(--cursor-size);
+    height: var(--cursor-size);
+    pointer-events: none;
+    transition: all 0.08s ease-out;
+    overflow: hidden;
+    z-index: 100;
+    border-radius: 10%;
+    
+    /* iOS Safari clip-path fix - add -webkit- prefix */
+    -webkit-clip-path: polygon(100% 50%,71.21% 71.21%,50% 100%,28.79% 71.21%,0% 50%,28.79% 28.79%,50% 0%,71.21% 28.79%);
+    clip-path: polygon(100% 50%,71.21% 71.21%,50% 100%,28.79% 71.21%,0% 50%,28.79% 28.79%,50% 0%,71.21% 28.79%);
+    
+    /* Hardware acceleration for iOS */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    will-change: transform;
+    /* -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000px; */
+}
+
+/* Fallback for older iOS versions that don't support clip-path */
+@supports not (clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)) {
+    .cursor-follower {
+        border-radius: 20%;
+    }
+}
+
+/* ===== MOBILE HOVER EFFECTS FOR PHOTOGRAPHY ===== */
+
+/* Enhanced mobile touch effects */
+@media (max-width: 768px) {
+    /* Add touch-friendly hover effects */
+    .image-item {
+        transition: transform 0.4s ease;
+        /* Enable hardware acceleration */
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        will-change: transform;
+    }
+    
+    /* Use :active and custom class for mobile "hover" */
+    .image-item:active,
+    .image-item.touch-active {
+        transform: rotate(0deg) !important;
+        z-index: 10;
+    }
+    
+    .image-item:active .image-title,
+    .image-item.touch-active .image-title {
+        color: rgb(8, 112, 25);
+    }
+    
+    /* Add a subtle pulse animation to indicate touch interaction */
+    .image-item.touch-active {
+        animation: mobileTouchPulse 0.3s ease-out;
+    }
+    
+    @keyframes mobileTouchPulse {
+        0% { 
+            transform: rotate(var(--rotation, 0deg)); 
+        }
+        50% { 
+            transform: rotate(0deg); 
+            
+        }
+        100% { 
+            transform: rotate(0deg); 
+            
+        }
+    }
+    
+    /* Override specific child transforms for mobile */
+    .image-item:nth-child(1).touch-active,
+    .image-item:nth-child(2).touch-active,
+    .image-item:nth-child(3).touch-active {
+        transform: rotate(0deg) !important;
+    }
+}
+
+/* ===== ENHANCED TOUCH FEEDBACK ===== */
+
+/* Add ripple effect for better touch feedback */
+.image-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.image-item::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    /* background: radial-gradient(circle, rgba(8, 112, 25, 0.2) 0%, transparent 70%); */
+    transform: translate(-50%, -50%);
+    /* transition: width 0.6s ease, height 0.6s ease, opacity 0.3s ease; */
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+}
+
+@media (max-width: 768px) {
+    .image-item:active::before,
+    .image-item.touch-active::before {
+        width: 300px;
+        height: 300px;
+        opacity: 1;
+    }
+}
+
+/* Ensure image and title are above the ripple effect */
+.image-item img,
+.image-item .image-title {
+    position: relative;
+    z-index: 2;
+}
+
+/* ===== ADDITIONAL MOBILE OPTIMIZATIONS ===== */
+
+/* Better touch targets for mobile */
+@media (max-width: 768px) {
+    .image-item a {
+        display: block;
+        -webkit-tap-highlight-color: transparent;
+        /* tap-highlight-color: transparent; */
+    }
+    
+    /* Improve touch responsiveness */
+    .image-item {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    
+    /* Smoother transitions on mobile */
+    .image-item img {
+        transition: transform 0.3s ease;
+    }
+}
+
+/* ===== ACCESSIBILITY IMPROVEMENTS ===== */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .image-item.touch-active .image-title {
+        color: rgb(0, 100, 0);
+        font-weight: bold;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .image-item,
+    .image-item::before,
+    .image-item img,
+    .image-item .image-title {
+        transition: none !important;
+        animation: none !important;
+    }
 }
 

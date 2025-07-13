@@ -18,7 +18,7 @@ body {
 .gallery-grid {
     margin-top: 50px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
@@ -48,7 +48,8 @@ body {
     pointer-events: none;
 }
 
-.gallery-item:hover .gallery-image::before {
+.gallery-item:hover .gallery-image::before,
+.gallery-item:active .gallery-image::before {
     opacity: .5;
 }
 
@@ -67,19 +68,55 @@ body {
     line-height: 1.4;
 }
 
-.gallery-item:hover .gallery-title {
+.gallery-item:hover .gallery-title,
+.gallery-item:active .gallery-title {
     color: rgb(139, 4, 4);
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
+    .overlay-text {
+        flex-direction: column;
+        gap: 15px;
+        top: 10px;
+        font-size: 18px;
+    }
+    
+    .nav-links {
+        gap: 20px;
+    }
+    
+    .overlay-text .nav-item {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+    
+    .gallery-container {
+        margin-top: 80px; /* Add space for mobile nav */
+    }
+    
     .gallery-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 15px;
+        margin-top: 20px;
     }
 }
 
 @media (max-width: 480px) {
+    .overlay-text {
+        gap: 10px;
+        font-size: 16px;
+    }
+    
+    .overlay-text .nav-item {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+    
+    .gallery-container {
+        margin-top: 100px; /* More space for smaller screens */
+    }
+    
     .gallery-grid {
         grid-template-columns: 1fr;
         gap: 10px;
@@ -90,7 +127,7 @@ body {
     }
 }
 
-.overlay-text-vd {
+.overlay-text {
     position: absolute;
     top: 20px;
     left: 0;
@@ -103,26 +140,33 @@ body {
     align-items: center;
     color: rgb(0, 0, 0);
     font-size: 25px;
-    /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
 }
 
-.nav-links-vd {
+.nav-links {
     display: flex;
     gap: 30px;
 }
 
-.overlay-text-vd .nav-item-vd {
+.overlay-text .nav-item {
     text-decoration: none;
     color: inherit;
     font-weight: 400;
     padding: 8px 16px;
-    /* border: 2px solid transparent; */
     border-radius: 4px;
     transition: all 0.3s ease;
 }
 
-.overlay-text-vd .nav-item-vd:hover {
-    /* border-color: white; */
+.overlay-text .nav-item:visited {
+    color: inherit;
+    text-decoration: none;
+}
+
+.overlay-text .nav-item:link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.overlay-text .nav-item:hover {
     text-decoration: underline;
     color: rgb(210, 34, 34);
 }

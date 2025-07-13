@@ -8,12 +8,12 @@
 </head>
 <body>
     <main class="main-content">
-        <div class="overlay-text-vd">
-            <div class="nav-links-vd">
-                <a href="about.html" class="nav-item-vd">about</a>
+        <div class="overlay-text">
+            <div class="nav-links">
+                <a href="about.html" class="nav-item">about</a>
                 <a href="{{ url_for('photography') }}" class="nav-item">photography</a>
                 <a href="{{ url_for('visual_design') }}" class="nav-item">visual design</a>
-                <a href="#" class="nav-item-vd">projects</a>
+                <a href="#" class="nav-item">projects</a>
             </div>
             <a href="{{ url_for('home') }}" class="nav-item nav-name">
                 <img src="../static/images/homepageimages/ajwStamp.jpg" alt="Your Name Logo" class="name-logo">
@@ -24,7 +24,7 @@
         <div class="gallery">
             <!-- Image 1 - Easily customizable by changing src and alt -->
             <div class="image-item">
-                <a href="nightmarket.html">
+                <a href="{{ url_for('nightmarket') }}">
                     <img src="../static/images/collections/Nightmarket/claw.jpeg" alt="Nightmarket" style="height:400px;">
                 </a>
                 <p class="image-title">Nightmarket (Collection)</p>
@@ -32,7 +32,7 @@
             
             <!-- Image 2 - Easily customizable by changing src and alt -->
             <div class="image-item">
-                <a href="taiwan.html">
+                <a href="{{ url_for('taiwan') }}">
                     <img src="../static/images/collections/Taiwan/stall.jpeg" alt="Taiwan"style="height:300px">
                 </a>
                  <p class="image-title">Taiwan (Collection)</p>
@@ -40,8 +40,26 @@
             
             <!-- Image 3 - Easily customizable by changing src and alt -->
             <div class="image-item">
-                <img src="../static/images/collections/DC/0945CAF3-4FAE-411B-8ECE-B53DAD2355F3_1_105_c (1).jpg" alt="Washington" style="height:450px">
+                <a href="{{ url_for('dc') }}">
+                    <img src="../static/images/collections/DC/0945CAF3-4FAE-411B-8ECE-B53DAD2355F3_1_105_c (1).jpg" alt="Washington" style="height:450px">
+                </a>
                  <p class="image-title">Washington D.C. (Collection)</p>
+            </div>
+            
+            <!-- Image 4 - France Collection -->
+            <div class="image-item">
+                <a href="{{ url_for('france') }}">
+                    <img src="../static/images/collections/France/000054350007.jpg" alt="France" style="height:350px">
+                </a>
+                 <p class="image-title">France (Collection)</p>
+            </div>
+            
+            <!-- Image 5 - Architecture Collection -->
+            <div class="image-item">
+                <a href="{{ url_for('architecture') }}">
+                    <img src="../static/images/collections/Architecture/leadenhall.jpeg" alt="Architecture" style="height:380px">
+                </a>
+                 <p class="image-title">Architecture (Collection)</p>
             </div>
         </div>
     </div>

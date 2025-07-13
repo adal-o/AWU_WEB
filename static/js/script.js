@@ -26,6 +26,7 @@ class InteractiveHomepage {
         this.isTransitioning = false;
         this.currentBackgroundImage = null;
         this.isMobile = this.checkIfMobile();
+        this.isIOS = this.checkIfIOS();
 
         this.init();
     }
@@ -34,10 +35,34 @@ class InteractiveHomepage {
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
     }
 
+    checkIfIOS() {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    }
+
     init() {
         this.setRandomBackground();
         this.setupCursorImages();
         this.setupEventListeners();
+        this.fixIOSClipPath();
+    }
+
+    fixIOSClipPath() {
+        // Apply iOS-specific fixes for clip-path
+        if (this.isIOS && this.cursorFollower) {
+            // Force hardware acceleration
+            this.cursorFollower.style.webkitTransform = 'translateZ(0)';
+            this.cursorFollower.style.transform = 'translateZ(0)';
+            this.cursorFollower.style.willChange = 'transform';
+            
+            // Apply webkit prefix for clip-path
+            const clipPath = 'polygon(100% 50%,71.21% 71.21%,50% 100%,28.79% 71.21%,0% 50%,28.79% 28.79%,50% 0%,71.21% 28.79%)';
+            this.cursorFollower.style.webkitClipPath = clipPath;
+            this.cursorFollower.style.clipPath = clipPath;
+            
+            // Additional iOS fixes
+            this.cursorFollower.style.webkitBackfaceVisibility = 'hidden';
+            this.cursorFollower.style.webkitPerspective = '1000px';
+        }
     }
 
     setRandomBackground() {
@@ -47,6 +72,8 @@ class InteractiveHomepage {
     }
 
     setupCursorImages() {
+        if (!this.cursorFollower) return;
+        
         this.cursorFollower.innerHTML = ''; // Clear existing images
         // Filter out the background image from cursor images if it's present in cursorImages array
         const availableCursorImages = CONFIG.cursorImages.filter(img => img.src !== this.currentBackgroundImage.src);
@@ -73,11 +100,11 @@ class InteractiveHomepage {
             });
 
             this.mainContent.addEventListener("mouseenter", () => {
-                this.cursorFollower.style.opacity = "1";
+                if (this.cursorFollower) this.cursorFollower.style.opacity = "1";
             });
 
             this.mainContent.addEventListener("mouseleave", () => {
-                this.cursorFollower.style.opacity = "0";
+                if (this.cursorFollower) this.cursorFollower.style.opacity = "0";
             });
         }
 
@@ -89,24 +116,55 @@ class InteractiveHomepage {
             }
         });
 
-        // Touch support for mobile - show cursor follower but don't interfere with nav
+        // Touch support for mobile - FIXED: Don't interfere with scrolling
         if (this.isMobile) {
-            this.cursorFollower.style.opacity = "1"; // Always show on mobile
+            if (this.cursorFollower) this.cursorFollower.style.opacity = "1"; // Always show on mobile
             
-            this.mainContent.addEventListener("touchmove", (e) => {
-                // Only prevent default if not touching a nav link
-                if (!e.target.closest('.nav-item')) {
-                    e.preventDefault();
-                    const touch = e.touches[0];
+            // Track if user is scrolling vs tapping
+            let isScrolling = false;
+            let startY = 0;
+            let startTime = 0;
+            
+            this.mainContent.addEventListener("touchstart", (e) => {
+                // Only handle single touch
+                if (e.touches.length !== 1) return;
+                
+                const touch = e.touches[0];
+                startY = touch.clientY;
+                startTime = Date.now();
+                isScrolling = false;
+                
+                // Update cursor position on touch start (only if not touching nav)
+                if (!e.target.closest('.nav-item') && this.cursorFollower) {
                     this.updateCursorPosition(touch);
                 }
             });
 
-            this.mainContent.addEventListener("touchstart", (e) => {
-                // Update cursor position on touch start
-                if (!e.target.closest('.nav-item')) {
-                    const touch = e.touches[0];
+            this.mainContent.addEventListener("touchmove", (e) => {
+                // Only handle single touch
+                if (e.touches.length !== 1) return;
+                
+                const touch = e.touches[0];
+                const deltaY = Math.abs(touch.clientY - startY);
+                const deltaTime = Date.now() - startTime;
+                
+                // Detect if user is scrolling (moved vertically more than 10px)
+                if (deltaY > 10 || deltaTime > 150) {
+                    isScrolling = true;
+                }
+                
+                // Only update cursor position if not scrolling and not touching nav
+                if (!isScrolling && !e.target.closest('.nav-item') && this.cursorFollower) {
                     this.updateCursorPosition(touch);
+                }
+                
+                // CRITICAL: Don't preventDefault - let scrolling work naturally
+            });
+
+            this.mainContent.addEventListener("touchend", (e) => {
+                // Only change cursor image if it was a tap (not scroll) and not on nav
+                if (!isScrolling && !e.target.closest('.nav-item')) {
+                    this.changeCursorImage();
                 }
             });
         }
@@ -129,6 +187,8 @@ class InteractiveHomepage {
     }
 
     updateCursorPosition(event) {
+        if (!this.cursorFollower) return;
+        
         const rect = this.mainContent.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
@@ -138,7 +198,7 @@ class InteractiveHomepage {
     }
 
     changeCursorImage() {
-        if (this.isTransitioning || this.cursorFollowerImages.length === 0) return;
+        if (this.isTransitioning || !this.cursorFollowerImages || this.cursorFollowerImages.length === 0) return;
 
         this.isTransitioning = true;
 
@@ -151,15 +211,83 @@ class InteractiveHomepage {
             this.isTransitioning = false;
         }, CONFIG.clickDelay);
 
-        this.cursorFollower.style.transform = "translate(-50%, -50%) scale(0.9)";
-        setTimeout(() => {
-            this.cursorFollower.style.transform = "translate(-50%, -50%) scale(1)";
-        }, 150);
+        if (this.cursorFollower) {
+            this.cursorFollower.style.transform = "translate(-50%, -50%) scale(0.9)";
+            setTimeout(() => {
+                this.cursorFollower.style.transform = "translate(-50%, -50%) scale(1)";
+            }, 150);
+        }
     }
 
     showCurrentCursorImage() {
+        if (!this.cursorFollowerImages) return;
+        
         this.cursorFollowerImages.forEach((img, index) => {
             img.classList.toggle("active", index === this.currentCursorImageIndex);
+        });
+    }
+}
+
+// Mobile Photography Hover Effects Handler
+class MobilePhotographyEffects {
+    constructor() {
+        this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        this.init();
+    }
+
+    init() {
+        if (!this.isMobile) return;
+        
+        this.setupMobileHoverEffects();
+    }
+
+    setupMobileHoverEffects() {
+        const imageItems = document.querySelectorAll('.image-item');
+        
+        imageItems.forEach(item => {
+            let touchStartTime = 0;
+            let touchActive = false;
+            
+            // Handle touch start
+            item.addEventListener('touchstart', (e) => {
+                touchStartTime = Date.now();
+                touchActive = true;
+                
+                // Add visual feedback immediately
+                item.classList.add('touch-active');
+                
+                // Store original rotation for animation
+                const currentTransform = window.getComputedStyle(item).transform;
+                item.style.setProperty('--original-transform', currentTransform);
+            }, { passive: true });
+            
+            // Handle touch move (check if user is scrolling)
+            item.addEventListener('touchmove', (e) => {
+                // If user moves finger significantly, it's likely scrolling
+                touchActive = false;
+                item.classList.remove('touch-active');
+            }, { passive: true });
+            
+            // Handle touch end
+            item.addEventListener('touchend', (e) => {
+                const touchDuration = Date.now() - touchStartTime;
+                
+                // If it was a quick tap (not a scroll), maintain effect briefly
+                if (touchActive && touchDuration < 500) {
+                    // Keep effect for a moment to show feedback
+                    setTimeout(() => {
+                        item.classList.remove('touch-active');
+                    }, 300);
+                } else {
+                    // Remove immediately if it was a scroll
+                    item.classList.remove('touch-active');
+                }
+            }, { passive: true });
+            
+            // Handle touch cancel
+            item.addEventListener('touchcancel', (e) => {
+                item.classList.remove('touch-active');
+            }, { passive: true });
         });
     }
 }
@@ -183,7 +311,15 @@ const CustomizationUtils = {
 
 // Initialize when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
-    const interactiveHomepage = new InteractiveHomepage();
+    // Initialize homepage effects (only if cursor follower exists)
+    if (document.querySelector(".cursor-follower")) {
+        const interactiveHomepage = new InteractiveHomepage();
+    }
+    
+    // Initialize mobile photography effects (for photography pages)
+    if (document.querySelector(".gallery")) {
+        const mobilePhotographyEffects = new MobilePhotographyEffects();
+    }
 
     // Make customization utils available globally
     window.CustomizationUtils = CustomizationUtils;

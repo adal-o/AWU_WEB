@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style-photos.css">
+    <title>Architecture Collection</title>
+</head>
+<body>
+    <main class="main-content">
+        <div class="overlay-text">
+            <div class="nav-links">
+                <a href="about.html" class="nav-item">about</a>
+                <a href="{{ url_for('photography') }}" class="nav-item">photography</a>
+                <a href="{{ url_for('visual_design') }}" class="nav-item">visual design</a>
+                <a href="#" class="nav-item">projects</a>
+            </div>
+            <a href="{{ url_for('home') }}" class="nav-item nav-name">
+                <img src="../static/images/homepageimages/ajwStamp.jpg" alt="Your Name Logo" class="name-logo">
+            </a>
+        </div>
+    <div class="gallery-container">
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="../static/images/collections/Architecture/E0C1AD9B-FFCD-4D27-A7A7-AA92FBBE7051.jpeg" alt="Gallery Image 1">
+                </div>
+                <div class="gallery-title">Untitled</div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="../static/images/collections/Architecture/IMG_9597.jpg" alt="Gallery Image 2">
+                </div>
+                <div class="gallery-title">Untitled</div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="../static/images/collections/Architecture/leadenhall.jpeg" alt="Gallery Image 3">
+                </div>
+                <div class="gallery-title">Untitled</div>
+            </div>
+        </div>
+    </div>
+    </main>
+</body>
+</html>
+

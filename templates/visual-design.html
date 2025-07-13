@@ -3,50 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visual Design Showcase</title>
+    <title>Collections</title>
     <link rel="stylesheet" href="../static/css/style-vd.css">
 </head>
-<body class="body-vd">
-    <!-- <header class="header-vd">
-    </header> -->
-    <main class="main-vd">
-        <div class="overlay-text-vd">
-        <div class="nav-links-vd">
-            <a href="about.html" class="nav-item-vd">about</a>
-            <a href="photography.html" class="nav-item-vd">photography</a>
-            <a href="visual-design.html" class="nav-item-vd">visual design</a>
-            <a href="#" class="nav-item-vd">projects</a>
+<body>
+    <main class="main-content">
+        <div class="overlay-text">
+            <div class="nav-links">
+                <a href="about.html" class="nav-item">about</a>
+                <a href="{{ url_for('photography') }}" class="nav-item">photography</a>
+                <a href="{{ url_for('visual_design') }}" class="nav-item">visual design</a>
+                <a href="#" class="nav-item">projects</a>
+            </div>
+            <a href="{{ url_for('home') }}" class="nav-item nav-name">
+                <img src="../static/images/homepageimages/ajwStamp.jpg" alt="Your Name Logo" class="name-logo">
+            </a>
         </div>
-        <a href="index.html" class="nav-item nav-name">
-            <img src="../static/images/homepageimages/ajwStamp.jpg" alt="Your Name Logo" class="name-logo">
-        </a>
-        </div>
-        <h1>Visual Design Collections</h1>
-        <section class="collections-list">
-        <a href="01_Zine.html" class="collection-item">
-            <img src="../static/images/visualDesign/01_Zine_P01.jpg" alt="01_Zine Thumbnail">
-            <span>01_Zine</span>
-        </a>
-        <a href="backseat_Zine.html" class="collection-item">
-            <img src="../static/images/backseat_zine/backseat_zine_P01.jpg" alt="01_Zine Thumbnail">
-            <span>Backseat Zine</span>
-        </a>
-        <a href="backseat_Zine.html" class="collection-item">
-            <img src="../static/images/backseat_zine/backseat_zine_P01.jpg" alt="01_Zine Thumbnail">
-            <span>Backseat Zine</span>
-        </a>
-            <!-- Add more collection items here -->
-        </section>
-    </main>
-    <!-- <footer>
-        <p>&copy; 2025 Amelie Wu. All rights reserved.</p>
-    </footer> -->
-    <script src="../static/js/scripts.js"></script>
+    <div class="container">
+        <!-- Gallery container -->
+        <div class="gallery">
+            <!-- Image 1 - Easily customizable by changing src and alt -->
+            <div class="image-item">
+                <a href="{{ url_for('nightmarket') }}">
+                    <img src="../static/images//visualDesign/01_Zine_P01.jpg" alt="01" style="height:400px;">
+                </a>
+                <p class="image-title">01_Zine</p>
+            </div>
+            
+            <!-- Image 2 - Easily customizable by changing src and alt -->
+            <div class="image-item">
+                <a href="{{ url_for('taiwan') }}">
+                    <img src="../static/images/backseat_zine/backseat_zine_P01.jpg" alt="backseat"style="height:300px">
+                </a>
+                 <p class="image-title">Backseat Zine</p>
+            </div>
+    <div class="cursor-follower">
+        <!-- Images will be dynamically loaded here -->
+    </div>
+    <script src="../static/js/script.js"></script>
+</main>
 </body>
 </html>
-
-
-
-
-
 
